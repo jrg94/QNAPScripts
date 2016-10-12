@@ -39,11 +39,12 @@ main () {
   build_staging
 
   # List all files in a directory
-  ALL_PICTURES="$(ls -LR "${PATH_TO_PLEX}" | grep -e '.PNG' -e '.GIF')"
+  ALL_PICTURES="$(cp `du -a "${PATH_TO_PLEX}" | grep -e '.txt'` ${PLEX_MUSIC})"
   echo ${ALL_PICTURES}
   #$ALL_FILES | grep .*png
   #ALL_PICTURES="$(get_pictures "${ALL_FILES}")"
   #echo $ALL_PICTURES
+  #[~] # cp `ls -LR /share/Cybronetics/ | grep .txt` /share/Plex/Staging/
 
   #read -n1 -r -p "Press any key to continue" key
 }
