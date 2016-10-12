@@ -22,6 +22,7 @@ A repository for developing various Linux scripts for my TS-251 QNAP NAS.
     + This has a huge benefit of not worrying if the script dies.
     + Here's a good reference: https://wiki.qnap.com/wiki/Add_items_to_crontab
       + EXAMPLE: echo "1 4 * * * /share/custom/scripts/custom1.sh" >> /etc/config/crontab
+      + REMEMBER: chmod +x filename.sh
   + Init script? Run continuously? 
     + This will allow it to hold its own state.
     + How do we keep this script at low resource usage?
