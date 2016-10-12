@@ -27,24 +27,13 @@ build_staging () {
   make_dir $PLEX_PICTURES
 }
 
-get_pictures() {
-  ALL_FILES=$1
-  ALL_PICTURES="$(grep '.*png' ${ALL_FILES})"
-  return
-}
-
 # The main function from which this script runs
 main () {
 
   build_staging
 
-  # List all files in a directory
-  ALL_PICTURES="$(cp `du -a "${PATH_TO_PLEX}" | grep -e '.txt'` ${PLEX_MUSIC})"
-  echo ${ALL_PICTURES}
-  #$ALL_FILES | grep .*png
-  #ALL_PICTURES="$(get_pictures "${ALL_FILES}")"
-  #echo $ALL_PICTURES
-  #[~] # cp `ls -LR /share/Cybronetics/ | grep .txt` /share/Plex/Staging/
+  # Gets all images and moves them to staging
+  mv `du -a "${PATH_TO_PLEX}" | grep -e '.PNG' -e '.png' -e '.GIF' -e '.gif'` ${PLEX_PICTURES}
 
   #read -n1 -r -p "Press any key to continue" key
 }
