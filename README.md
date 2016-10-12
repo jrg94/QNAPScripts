@@ -27,3 +27,10 @@ A repository for developing various Linux scripts for my TS-251 QNAP NAS.
     + This will allow it to hold its own state.
     + How do we keep this script at low resource usage?
 
+### Specifications
+
++ The script shall run as a cronjob
+  + The script shall track its own state between runs
+    + If the size of the Plex dump repo is 0, log value and exit
+    + If the size of the Plex dump repo was any value and has changed, log value and exit 
+    + If the size of the Plex repo was any value and has not changed, execute script (no risk here because 0 case short circuits the logic) 
