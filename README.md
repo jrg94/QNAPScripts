@@ -1,3 +1,4 @@
+
 # QNAPScripts
 A repository for developing various Linux scripts for my TS-251 QNAP NAS.
 
@@ -18,6 +19,7 @@ A repository for developing various Linux scripts for my TS-251 QNAP NAS.
 + When to execute the script?
   + Cronjob? Is this even possible on the BusyBox OS?
     + This will probably require some save file to save state.
+    + Here's a good reference: https://wiki.qnap.com/wiki/Add_items_to_crontab
   + Init script? Run continuously? 
     + This will allow it to hold its own state.
     + How do we keep this script at low resource usage?
