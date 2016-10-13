@@ -14,16 +14,13 @@ make_dir () {
   fi
 }
 
-# Builds up the staging directory
-build_staging () {
-  # If the staging folder does not exist, create it
-  make_dir $PLEX_STAGING
-  # If the staging folder does not have a videos folder, make one
-  make_dir $PLEX_VIDEOS
-  # If the staging folder does not have a music folder, make one
-  make_dir $PLEX_MUSIC
-  # If the staging folder does not have a pictures folder, make one
-  make_dir $PLEX_PICTURES
+# Builds up the plex directory
+build_plex () {
+  make_dir $1
+  make_dir $2
+  make_dir $3
+  make_dir $4
+  make_dir $5
 }
 
 # The main function from which this script runs
@@ -50,15 +47,15 @@ main () {
   PLEX_PICTURES=$PLEX_STAGING"\Pictures"
 
   # Build staging directory
-  build_staging PLEX_UPLOAD
+  build_plex $PLEX_UPLOAD $PLEX_STAGING $PLEX_VIDEOS $PLEX_PICTURES $PLEX_MUSIC
 
   # Get size of directory
   SIZE_OF_UPLOAD="du "${PATH_TO_PLEX}""
-  echo $SIZE_OF_UPLOAD
+  #echo $SIZE_OF_UPLOAD
 
-  if [$SIZE_OF_UPLOAD == 0]; then
-    exit
-  fi
+  #if [$SIZE_OF_UPLOAD == 0]; then
+  #  exit
+  #fi
 
   # Gets all images and moves them to staging
   #mv `du -a "${PATH_TO_PLEX}" | grep -e '.PNG' -e '.png' -e '.GIF' -e '.gif'` ${PLEX_PICTURES}
@@ -66,4 +63,4 @@ main () {
   #read -n1 -r -p "Press any key to continue" key
 }
 
-main
+main $1
