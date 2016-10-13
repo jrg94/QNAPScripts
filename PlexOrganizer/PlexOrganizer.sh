@@ -2,10 +2,6 @@
 # Steps to solving the Plex Nightmare
 # 1. Rename files that need to be renamed
 # 2. Move files as appropriate
-PLEX_STAGING="X:\Staging"
-PLEX_VIDEOS=$PLEX_STAGING"\Videos"
-PLEX_MUSIC=$PLEX_STAGING"\Music"
-PLEX_PICTURES=$PLEX_STAGING"\Pictures"
 
 # Makes a director if it exists
 make_dir () {
@@ -38,6 +34,12 @@ main () {
     exit
   fi
 
+  # Test if the supplied directory is an absolut path
+  #if [[ ! "$1" = /* ]] || [[ ! "$1" = "C:\*" ]]; then
+  #  echo "Failed to give an absolute path"
+  #  exit
+  #fi
+
   # Define paths based on user input
   PATH_TO_PLEX=$1
   PLEX_UPLOAD=$1"\Upload"
@@ -50,7 +52,7 @@ main () {
   build_plex $PLEX_UPLOAD $PLEX_STAGING $PLEX_VIDEOS $PLEX_PICTURES $PLEX_MUSIC
 
   # Get size of directory
-  SIZE_OF_UPLOAD=$(du -s "${PATH_TO_PLEX}" | awk '{print $1}')
+  SIZE_OF_UPLOAD=$(du -s "${PLEX_UPLOAD}" | awk '{print $1}')
 
   # Load in LastDumpSize
   . ./StateData.txt
@@ -63,22 +65,25 @@ main () {
   fi
 
   # If the upload directory has not changed size, exit
-  if [ $SIZE_OF_UPLOAD = $LastDumpSize ]; then
-    echo "No new files in ${PLEX_UPLOAD}"
+  if [ $SIZE_OF_UPLOAD != $LastDumpSize ]; then
+    echo "${PLEX_UPLOAD} size is changing"
+    sed -i 's/LastDumpSize=.*/LastDumpSize='"$SIZE_OF_UPLOAD"'/' ./StateData.txt
     exit
   fi
 
   # Otherwise, lets do this!
   # Get the list of everything with absolute paths!
-  LIST_OF_UPLOAD=$(du -a ${PATH_TO_PLEX} | awk '{$1="";print}')
+  LIST_OF_UPLOAD=$(du -a ${PLEX_UPLOAD} | awk '{$1="";print}' | sed -e 's/^[[:space:]]*//')
 
   # From the upload list, grab each category
   PICTURES=$(grep -e '.PNG' -e '.png' -e '.GIF' -e '.gif' <<< "$LIST_OF_UPLOAD")
   MUSIC=$(grep -e '.mp3' <<< "$LIST_OF_UPLOAD")
   VIDEOS=$(grep -e '.mp4' <<< "$LIST_OF_UPLOAD")
 
-  # Gets all images and moves them to staging
-  #mv `du -a "${PATH_TO_PLEX}" | grep -e '.PNG' -e '.png' -e '.GIF' -e '.gif'` ${PLEX_PICTURES}
+  # SORT! :D
+  mv ${PICTURES} $PLEX_PICTURES
+  mv ${MUSIC} $PLEX_MUSIC
+  mv ${VIDEOS} $PLEX_VIDEOS
 }
 
 main $1
