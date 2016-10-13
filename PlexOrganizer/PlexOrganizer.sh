@@ -2,7 +2,6 @@
 # Steps to solving the Plex Nightmare
 # 1. Rename files that need to be renamed
 # 2. Move files as appropriate
-PATH_TO_PLEX="X:\Upload"
 PLEX_STAGING="X:\Staging"
 PLEX_VIDEOS=$PLEX_STAGING"\Videos"
 PLEX_MUSIC=$PLEX_STAGING"\Music"
@@ -30,14 +29,28 @@ build_staging () {
 # The main function from which this script runs
 main () {
 
-  # Test if plex directory exist
-  if [ ! -d ${PATH_TO_PLEX} ]; then
-    echo "Failed to find "${PATH_TO_PLEX}""
+  # Test if the user supplied arguments
+  if [ -z $1 ]; then
+    echo "No arguments applied"
     exit
   fi
 
+  # Test if plex directory exist
+  if [ ! -d $1 ]; then
+    echo "Failed to find "$1""
+    exit
+  fi
+
+  # Define paths based on user input
+  PATH_TO_PLEX=$1
+  PLEX_UPLOAD=$1"\Upload"
+  PLEX_STAGING=$1"\Staging"
+  PLEX_VIDEOS=$PLEX_STAGING"\Videos"
+  PLEX_MUSIC=$PLEX_STAGING"\Music"
+  PLEX_PICTURES=$PLEX_STAGING"\Pictures"
+
   # Build staging directory
-  build_staging
+  build_staging PLEX_UPLOAD
 
   # Get size of directory
   SIZE_OF_UPLOAD="du "${PATH_TO_PLEX}""
