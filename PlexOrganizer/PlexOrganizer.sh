@@ -52,15 +52,25 @@ main () {
   # Get size of directory
   SIZE_OF_UPLOAD=$(du -s "${PATH_TO_PLEX}" | awk '{print $1}')
 
+  # Load in LastDumpSize
+  . ./StateData.txt
+
+  # If the upload directory is empty, update and exit
   if [ $SIZE_OF_UPLOAD = 0 ]; then
+    echo "${PLEX_UPLOAD} is empty"
+    sed -i 's/LastDumpSize=.*/LastDumpSize=0/' ./StateData.txt
+    exit
+  fi
+
+  # If the upload directory has not changed size, exit
+  if [ $SIZE_OF_UPLOAD = $LastDumpSize ]; then
     echo "No new files in ${PLEX_UPLOAD}"
     exit
   fi
 
+  # Otherwise, lets do this!
   # Gets all images and moves them to staging
-  #mv `du -a "${PATH_TO_PLEX}" | grep -e '.PNG' -e '.png' -e '.GIF' -e '.gif'` ${PLEX_PICTURES}
-
-  #read -n1 -r -p "Press any key to continue" key
+  mv `du -a "${PATH_TO_PLEX}" | grep -e '.PNG' -e '.png' -e '.GIF' -e '.gif'` ${PLEX_PICTURES}
 }
 
 main $1
