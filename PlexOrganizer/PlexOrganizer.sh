@@ -30,10 +30,25 @@ build_staging () {
 # The main function from which this script runs
 main () {
 
+  # Test if plex directory exist
+  if [ ! -d ${PATH_TO_PLEX} ]; then
+    echo "Failed to find "${PATH_TO_PLEX}""
+    exit
+  fi
+
+  # Build staging directory
   build_staging
 
+  # Get size of directory
+  SIZE_OF_UPLOAD="du "${PATH_TO_PLEX}""
+  echo $SIZE_OF_UPLOAD
+
+  if [$SIZE_OF_UPLOAD == 0]; then
+    exit
+  fi
+
   # Gets all images and moves them to staging
-  mv `du -a "${PATH_TO_PLEX}" | grep -e '.PNG' -e '.png' -e '.GIF' -e '.gif'` ${PLEX_PICTURES}
+  #mv `du -a "${PATH_TO_PLEX}" | grep -e '.PNG' -e '.png' -e '.GIF' -e '.gif'` ${PLEX_PICTURES}
 
   #read -n1 -r -p "Press any key to continue" key
 }
