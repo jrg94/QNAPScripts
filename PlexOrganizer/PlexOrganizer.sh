@@ -81,9 +81,9 @@ main () {
   VIDEOS=$(grep -e '.mp4' <<< "$LIST_OF_UPLOAD")
 
   # SORT! :D
-  mv ${PICTURES} $PLEX_PICTURES
-  mv ${MUSIC} $PLEX_MUSIC
-  mv ${VIDEOS} $PLEX_VIDEOS
+  [[ ! -z "$PICTURES" ]] && mv ${PICTURES} $PLEX_PICTURES
+  [[ ! -z "$MUSIC" ]] && mv ${MUSIC} $PLEX_MUSIC
+  [[ ! -z "$VIDEOS" ]] && mv ${VIDEOS} $PLEX_VIDEOS
 }
 
 main $1

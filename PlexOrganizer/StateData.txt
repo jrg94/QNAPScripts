@@ -1,1 +1,1 @@
-LastDumpSize=2
+LastDumpSize=0
