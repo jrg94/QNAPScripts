@@ -50,8 +50,8 @@ main () {
   build_plex $PLEX_UPLOAD $PLEX_STAGING $PLEX_VIDEOS $PLEX_PICTURES $PLEX_MUSIC
 
   # Get size of directory
-  SIZE_OF_UPLOAD="du "${PATH_TO_PLEX}""
-  #echo $SIZE_OF_UPLOAD
+  SIZE_OF_UPLOAD=$(du -s "${PATH_TO_PLEX}")
+  echo $SIZE_OF_UPLOAD
 
   #if [$SIZE_OF_UPLOAD == 0]; then
   #  exit
