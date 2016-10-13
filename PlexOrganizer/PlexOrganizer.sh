@@ -69,8 +69,16 @@ main () {
   fi
 
   # Otherwise, lets do this!
+  # Get the list of everything with absolute paths!
+  LIST_OF_UPLOAD=$(du -a ${PATH_TO_PLEX} | awk '{$1="";print}')
+
+  # From the upload list, grab each category
+  PICTURES=$(grep -e '.PNG' -e '.png' -e '.GIF' -e '.gif' <<< "$LIST_OF_UPLOAD")
+  MUSIC=$(grep -e '.mp3' <<< "$LIST_OF_UPLOAD")
+  VIDEOS=$(grep -e '.mp4' <<< "$LIST_OF_UPLOAD")
+
   # Gets all images and moves them to staging
-  mv `du -a "${PATH_TO_PLEX}" | grep -e '.PNG' -e '.png' -e '.GIF' -e '.gif'` ${PLEX_PICTURES}
+  #mv `du -a "${PATH_TO_PLEX}" | grep -e '.PNG' -e '.png' -e '.GIF' -e '.gif'` ${PLEX_PICTURES}
 }
 
 main $1
