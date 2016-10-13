@@ -53,9 +53,10 @@ main () {
   SIZE_OF_UPLOAD=$(du -s "${PATH_TO_PLEX}")
   echo $SIZE_OF_UPLOAD
 
-  #if [$SIZE_OF_UPLOAD == 0]; then
-  #  exit
-  #fi
+  if [ $SIZE_OF_UPLOAD = 0 ]; then
+    echo "No new files in ${PLEX_UPLOAD}"
+    exit
+  fi
 
   # Gets all images and moves them to staging
   #mv `du -a "${PATH_TO_PLEX}" | grep -e '.PNG' -e '.png' -e '.GIF' -e '.gif'` ${PLEX_PICTURES}
