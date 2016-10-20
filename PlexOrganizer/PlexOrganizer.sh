@@ -75,12 +75,15 @@ main () {
 
 	# Otherwise, lets do this!
 	# Get the list of everything with absolute paths!
-	LIST_OF_UPLOAD=$(du -a ${PLEX_UPLOAD} | awk '{$1="";print}' | sed -e 's/^[[:space:]]*//')
+	LIST_OF_UPLOAD=$(du -L -a ${PLEX_UPLOAD} | awk '{$1="";print}' | sed -e 's/^[[:space:]]*//')
 
 	# From the upload list, grab each category
 	PICTURES=$(grep -e '.PNG' -e '.png' -e '.GIF' -e '.gif' <<< "$LIST_OF_UPLOAD")
 	MUSIC=$(grep -e '.mp3' <<< "$LIST_OF_UPLOAD")
 	VIDEOS=$(grep -e '.mp4' <<< "$LIST_OF_UPLOAD")
+
+	# Tells script to split by newline
+	IFS=$'\n'
 
 	# SORT! :D
 	[[ ! -z "$PICTURES" ]] && mv ${PICTURES} $PLEX_PICTURES
