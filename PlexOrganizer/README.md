@@ -2,10 +2,13 @@
 
 ## How to Use PlexOrganizer.sh
 
-+ echo "*/5 * * * * /path/to/plex/filename.sh" >> /etc/config/crontab
-+ crontab /etc/config/crontab
-+ /etc/init.d/crond.sh restart
-+ chmod +x filename.sh
+Note: Make sure the file has UNIX line endings
+
++ Add plex to cronjob using following steps
+	+ echo "*/5 * * * * /path/to/plex/filename.sh" >> /etc/config/crontab
+	+ crontab /etc/config/crontab
+	+ /etc/init.d/crond.sh restart
+	+ chmod +x filename.sh
 
 ## Useful Commands
 
