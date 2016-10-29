@@ -55,19 +55,19 @@ main () {
 	SIZE_OF_UPLOAD=$(du -s "${PLEX_UPLOAD}" | awk '{print $1}')
 
 	# Load in LastDumpSize
-	. ./StateData.txt
+	. $2
 
 	# If the upload directory is empty, update and exit
 	if [ $SIZE_OF_UPLOAD = 0 ]; then
 		echo "${PLEX_UPLOAD} is empty"
-		sed -i 's/LastDumpSize=.*/LastDumpSize=0/' ./StateData.txt
+		sed -i 's/LastDumpSize=.*/LastDumpSize=0/' $2
 		exit
 	fi
 
 	# If the upload directory has not changed size, exit
 	if [ $SIZE_OF_UPLOAD != $LastDumpSize ]; then
 		echo "${PLEX_UPLOAD} size is changing"
-		sed -i 's/LastDumpSize=.*/LastDumpSize='"$SIZE_OF_UPLOAD"'/' ./StateData.txt
+		sed -i 's/LastDumpSize=.*/LastDumpSize='"$SIZE_OF_UPLOAD"'/' $2
 		exit
 	fi
 
@@ -91,4 +91,5 @@ main () {
 	[[ ! -z "$VIDEOS" ]] && mv ${VIDEOS} $PLEX_VIDEOS
 }
 
-main $1
+main $1 $2
+
